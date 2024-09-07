@@ -8,6 +8,7 @@ public class SnakeMovement : MonoBehaviour
     private Vector3 direction = Vector3.right;
     private Vector3 lastDirection;
     public GameObject tailprefab;
+    public GameObject headprefab;
     private List<Transform> tailSegments = new List<Transform>();
     
     void Update()
@@ -31,7 +32,7 @@ public class SnakeMovement : MonoBehaviour
 
         lastDirection = direction;
         // Двигаем голову змейки
-        moveTail();
+        //moveTail();
         transform.position += direction * moveSpeed * Time.deltaTime;
         
     }
@@ -48,7 +49,7 @@ public class SnakeMovement : MonoBehaviour
     }
     public void addSegment()
     {
-        GameObject newSegment = Instantiate(tailprefab);
+        GameObject newSegment = Instantiate(tailprefab, tailprefab.transform.position, Quaternion.identity, transform);
         tailSegments.Add(newSegment.transform);
     }
     //void OnCollisionEnter2D(Collider2D collision)
@@ -63,7 +64,7 @@ public class SnakeMovement : MonoBehaviour
     //}
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("коллизия");
+        Debug.Log("Colliding with: " + other.gameObject.name);
         // Проверяем, если коллайдер триггерный
         if (other.CompareTag("Food"))
         {
